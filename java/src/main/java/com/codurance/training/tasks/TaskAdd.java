@@ -1,7 +1,10 @@
 package com.codurance.training.tasks;
 
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +44,31 @@ public class TaskAdd {
             return;
         }
         projectTasks.add(new Task(nextId(), description, false));
+    }
+
+    public void addDeadlineToTask(long taskId, String deadline) {
+        Date date = parseDate(deadline);
+        for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
+            for(Task task: project.getValue()) {
+                if(task.getId() == taskId) {
+                    task.setDeadline(date);
+                }
+            }
+        }
+        out.printf("Could not find a task with an ID of %s", taskId);
+        out.println();
+    }
+
+    private Date parseDate(String deadline) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(deadline);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
     }
 
     public long nextId() {

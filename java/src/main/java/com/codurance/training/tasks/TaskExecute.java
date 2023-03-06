@@ -11,13 +11,17 @@ public class TaskExecute implements Execute{
 
     private final TaskAdd taskAdd;
 
-    private final Delete taskDelete;
+    private final View taskView;
+
+    Map<String, List<Task>> tasks;
+
+    PrintWriter out;
 
     public TaskExecute(Map<String, List<Task>> tasks, PrintWriter out) {
         this.taskInfo = new TaskInfo(tasks, out);
         this.taskCheck = new TaskCheck(tasks, out);
         this.taskAdd = new TaskAdd(tasks, out);
-        this.taskDelete = new TaskDelete(tasks, out);
+        this.taskView = new TaskView(tasks, out);
     }
 
     @Override
@@ -41,8 +45,30 @@ public class TaskExecute implements Execute{
                 taskInfo.help();
                 break;
             case "delete":
-                taskDelete.deleteTask(Long.parseLong(commandRest[1]));
+                new TaskDelete(tasks, out).deleteTask(Long.parseLong(commandRest[1]));
                 break;
+            case "deadline":
+                taskAdd.addDeadlineToTask(Long.parseLong(commandRest[0]), commandRest[1]);
+                break;
+            case "today":
+                taskView.viewDueTodayTasks();
+                break;
+            case "view":
+                String viewBy = commandRest[1];
+                switch (viewBy) {
+                    case "by date":
+                        taskView.viewByDate();
+                        break;
+                    case "by deadline":
+                        taskView.viewByDeadline();
+                        break;
+                    case "by project":
+                        taskView.viewByProject();
+                        break;
+                    default:
+                        taskInfo.error(command);
+                        break;
+                }
             default:
                 taskInfo.error(command);
                 break;
