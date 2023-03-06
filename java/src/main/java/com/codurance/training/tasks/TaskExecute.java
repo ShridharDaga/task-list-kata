@@ -11,10 +11,13 @@ public class TaskExecute implements Execute{
 
     private final TaskAdd taskAdd;
 
+    private final Delete taskDelete;
+
     public TaskExecute(Map<String, List<Task>> tasks, PrintWriter out) {
         this.taskInfo = new TaskInfo(tasks, out);
         this.taskCheck = new TaskCheck(tasks, out);
         this.taskAdd = new TaskAdd(tasks, out);
+        this.taskDelete = new TaskDelete(tasks, out);
     }
 
     @Override
@@ -36,6 +39,9 @@ public class TaskExecute implements Execute{
                 break;
             case "help":
                 taskInfo.help();
+                break;
+            case "delete":
+                taskDelete.deleteTask(Long.parseLong(commandRest[1]));
                 break;
             default:
                 taskInfo.error(command);

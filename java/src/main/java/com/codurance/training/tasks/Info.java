@@ -5,4 +5,3 @@ public interface Info {
     void error(String command);
     void show();
 }
-

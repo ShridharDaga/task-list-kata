@@ -14,12 +14,10 @@ public final class TaskList implements Runnable {
     private final BufferedReader in;
     private final PrintWriter out;
 
-    Map<String, List<Task>> tasks;
-
     public TaskList(BufferedReader in, PrintWriter out) {
         this.in = in;
         this.out = out;
-        tasks = new LinkedHashMap<>();
+        Map<String, List<Task>> tasks = new LinkedHashMap<>();
         this.taskExecute = new TaskExecute(tasks, out);
     }
 
