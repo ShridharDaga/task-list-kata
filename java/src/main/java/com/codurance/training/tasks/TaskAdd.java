@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class TaskAdd {
+public class TaskAdd implements Add{
 
     private long lastId = 0;
     private final Map<String, List<Task>> tasks;
@@ -21,6 +21,7 @@ public class TaskAdd {
     }
 
 
+    @Override
     public void add(String commandLine) {
         String[] subcommandRest = commandLine.split(" ", 2);
         String subcommand = subcommandRest[0];
@@ -46,6 +47,7 @@ public class TaskAdd {
         projectTasks.add(new Task(nextId(), description, false));
     }
 
+    @Override
     public void addDeadlineToTask(long taskId, String deadline) {
         Date date = parseDate(deadline);
         for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
@@ -71,7 +73,7 @@ public class TaskAdd {
         return date;
     }
 
-    public long nextId() {
+    private long nextId() {
         return ++lastId;
     }
 

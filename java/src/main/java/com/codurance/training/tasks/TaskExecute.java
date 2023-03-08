@@ -9,7 +9,7 @@ public class TaskExecute implements Execute{
 
     private final Check taskCheck;
 
-    private final TaskAdd taskAdd;
+    private final Add taskAdd;
 
     private final View taskView;
 
